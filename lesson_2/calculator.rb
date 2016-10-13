@@ -4,21 +4,20 @@
 # output the result
 
 puts "Choose one number"
-user_input_1 = gets.chomp.to_i
+userinput1 = gets.chomp.to_i
 puts "Choose another number"
-user_input_2 = gets.chomp.to_i
+userinput2 = gets.chomp.to_i
 puts "Choose an operation: +, -, /, *"
-user_input_3 = gets.chomp
+userinput3 = gets.chomp
 
-
-if user_input_3 == "+"
-  puts user_input_1 + user_input_2
-elsif user_input_3 == "-"
-  puts user_input_1 - user_input_2
-elsif user_input_3 == "/"
-  puts user_input_1.to_f / user_input_2.to_f
-elsif user_input_3 == "*"
-  puts user_input_1 * user_input_2
+if userinput3 == "+"
+  puts userinput1 + userinput2
+elsif userinput3 == "-"
+  puts userinput1 - userinput2
+elsif userinput3 == "/"
+  puts userinput1.to_f / userinput2.to_f
+elsif userinput3 == "*"
+  puts userinput1 * userinput2
 else
   puts "Error! Must choose numbers and operations!"
 end
