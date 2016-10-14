@@ -1,8 +1,3 @@
-# ask the user for two numbers
-# ask the user for an operation to perform
-# perform the operation on the two numbers
-# output the result
-
 require 'yaml'
 MESSAGES = YAML.load_file('calculator_messages.yml')
 
@@ -21,7 +16,6 @@ end
 def number?(input)
   integer?(input) || float?(input)
 end
-
 
 def operation_to_message(op)
   case op
