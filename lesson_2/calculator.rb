@@ -1,4 +1,6 @@
 require 'yaml'
+require 'pry'
+
 MESSAGES = YAML.load_file('calculator_messages.yml')
 
 def prompt(message)
@@ -15,6 +17,14 @@ end
 
 def number?(input)
   integer?(input) || float?(input)
+end
+
+def validating(number)
+  if integer?(number)
+    number.to_i
+  else
+    number.to_f
+  end
 end
 
 def operation_to_message(op)
@@ -58,6 +68,8 @@ loop do # Main loop
     end
   end
 
+  number1 = validating(number1)
+
   number2 = ''
   loop do
     prompt(MESSAGES['number2'])
@@ -68,7 +80,10 @@ loop do # Main loop
     else
       prompt(MESSAGES['valid_number'])
     end
+    validating(number2)
   end
+
+  number2 = validating(number2)
 
   operator_prompt = <<-MSG
     Choose an operation:
@@ -95,13 +110,13 @@ loop do # Main loop
 
   result = case operator
            when '1'
-             number1.to_i + number2.to_i
+             number1 + number2
            when '2'
-             number1.to_i - number2.to_i
+             number1 - number2
            when '3'
-             number1.to_i * number2.to_i
+             number1 * number2
            when '4'
-             number1.to_f / number2.to_f
+             number1 / number2
            end
 
   prompt("The result is #{result}")
