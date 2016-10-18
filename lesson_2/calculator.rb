@@ -80,7 +80,6 @@ loop do # Main loop
     else
       prompt(MESSAGES['valid_number'])
     end
-    validating(number2)
   end
 
   number2 = validating(number2)
