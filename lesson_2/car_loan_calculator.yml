@@ -1,0 +1,16 @@
+# Car Loan Calculator messages
+
+welcome: "Welcome to the Car Loan Calculator! Please enter your name: "
+valid_name: "Please insert a valid name!"
+amount: "What's the loan amount that you need"
+valid_number: "Enter a valid number please!"
+rate: "What's the Annual Percentage Rate that you wish? Please type in percentage,
+like 5, if you mean 5% for example."
+duration: "How many years is the duration of the loan?"
+result: "You monthly payment will be"
+result2: "You'll pay for your loan"
+result3: and in interests
+result4: Which gives you the total in the end of
+continue: "Would you like to calculate again?"
+finish: "Thank you for using the Car Loan Calculator"
+

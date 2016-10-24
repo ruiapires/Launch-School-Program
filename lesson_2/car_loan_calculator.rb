@@ -1,39 +1,114 @@
+require 'yaml'
+
+MESSAGES = YAML.load_file('car_loan_calculator.yml')
+
+def prompt(message)
+  puts "=> #{message}"
+end
+
+def integer?(input)
+  input.to_i.to_s == input
+end
+
+def float?(input)
+  input.to_f.to_s == input
+end
+
+def valid_number?(input)
+  integer?(input) || float?(input)
+end
+
+def to_i_or_to_f?(number)
+  if integer?(number)
+    number.to_i
+  else
+    number.to_f
+  end
+end
+
+# Welcome to the calculator and ask for a valid name
+prompt(MESSAGES['welcome'])
+
+name = ''
+loop do
+  name = gets.chomp
+
+  if name.empty?
+    prompt(MESSAGES['valid_name'])
+  else
+    break
+  end
+end
+
 # ask for:
 # the loan amount
-# the Annual Percentage Rate
-# the loan duration
+loop do # Main Loop
+  amount = ''
+  loop do
+    prompt("#{MESSAGES['amount']} #{name}?")
+    amount = gets.chomp
 
-puts "What's the loan amount that you need?"
-amount = gets.chomp.to_i
+    if valid_number?(amount)
+      break
+    else
+      prompt(MESSAGES['valid_number'])
+    end
+  end
 
-puts "What's the Annual Percentage Rate that you wish?"
-annual = gets.chomp.to_f
-puts "How many years is the duration of the loan?"
-duration = gets.chomp.to_i
+  amount = to_i_or_to_f?(amount)
 
-# Calculate:
-# monthly interest rate
-# loan duration in months
+  # the Annual Percentage Rate
+  rate = ''
+  loop do
+    prompt(MESSAGES['rate'])
+    rate = gets.chomp.to_f
 
-monthly_interest = (annual * 0.010) / 12
-loan_duration = duration * 12
+    if rate > 1
+      break
+    else
+      prompt(MESSAGES['valid_number'])
+    end
+  end
 
-# Formula:
-# m = p * (j / (1 - (1 + j)**-n))
-# m = monthly payment; p = loan amount; j = mounthly interest rate
-# n = loan duration in months
+  rate = to_i_or_to_f?(rate)
 
-monthly_payment = amount * (monthly_interest / (1 - (1 + monthly_interest)** -loan_duration))
+  # the loan duration
+  duration = ''
+  loop do
+    prompt(MESSAGES['duration'])
+    duration = gets.chomp
 
-puts monthly_payment.round(2)
+    if valid_number?(duration)
+      break
+    else
+      prompt(MESSAGES['valid_number'])
+    end
+  end
 
-# Hints:
+  duration = to_i_or_to_f?(duration)
 
-# Figure out what format your inputs need to be in.
-# For example, should the interest rate be expressed as 5 or .05,
-# if you mean 5% interest?
-# If you're working with Annual Percentage Rate (APR),
-# you'll need to convert that to a monthly interest rate.
-# Be careful about the loan duration -- are you working with
-# months or years? Choose variable names carefully
-# to assist in remembering.
+  # Calculate:
+  # monthly interest rate
+  # loan duration in months
+
+  monthly_interest = (rate * 0.010) / 12
+  loan_duration = duration * 12
+  without_interest = amount / loan_duration
+
+  result = amount * (monthly_interest /
+    (1 - (1 + monthly_interest)** -loan_duration))
+
+  interests = result - without_interest
+  total = result * loan_duration
+
+  prompt("#{MESSAGES['result']} #{result.round(2)}")
+  prompt("#{MESSAGES['result2']} #{without_interest}
+    #{MESSAGES['result3']} #{interests.round(2)}.
+    #{MESSAGES['result4']} #{total.round(2)}")
+
+  prompt(MESSAGES['continue'])
+  answer = gets.chomp
+  break unless answer.downcase.start_with?('y')
+end
+
+prompt("#{MESSAGES['finish']} #{name}!")
