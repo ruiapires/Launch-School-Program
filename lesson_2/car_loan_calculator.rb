@@ -1,79 +1,72 @@
+require 'yaml'
+
+MESSAGES = YAML.load_file('calculator_messages.yml')
+
 def prompt(message)
-  puts "=> #{message}"
-end
-
-def valid_numbers(input, prompt)
-  input = nil
-  loop do
-    input = gets.chomp
-    if /^\d+$/.match(input) && input.to_i > 0
-      break
-    else
-      prompt("Please use only numbers!")
-    end
-  end
-  input
-end
-
-def valid_interest(input, prompt)
-  input = nil
-  loop do
-    input = gets.chomp
-    if input.to_f <= 0
-      prompt("Please use only numbers bigger than 0!")
-    elsif /^\w+^\$/.match(input)
-      prompt("Please use only numbers!")
-    elsif input.size > 4
-      prompt("Please insert a valid interest rate!")
-    else
-      break
-    end
-  end
-  input
+  puts ">>>>>> #{message}"
 end
 
 name = ''
-prompt("Welcome to the Car Loan Calculator! Enter your name please: ")
+prompt(MESSAGES['welcome'])
 loop do
   name = gets.chomp.capitalize
   if name.empty?
-    prompt("Please insert a name!")
+    prompt(MESSAGES['valid_name'])
   elsif name.size <= 1 || name.size > 10
-    prompt("Please use 2 up to 10 characters for your name!")
+    prompt(MESSAGES['limit_characters'])
   elsif /\d+/.match(name) || /\W+/.match(name)
-    prompt("Your name can't have numbers or special characters!")
+    prompt(MESSAGES['special_characters'])
   else
     break
   end
 end
 
 loop do
-  amount = valid_numbers(amount, prompt("What's the loan
-    amount that you need? Please type a number - ex: 12500,
-    not 12,500 or 12.500"))
-  amount = amount.to_i
+  amount = nil
+  prompt(MESSAGES['amount'])
+  loop do
+    amount = gets.chomp
+    if /^\d+$/ =~ amount && amount.to_i > 0
+      break
+    else
+      prompt(MESSAGES['valid_number'])
+    end
+  end
 
-  annual_percentage_rate = valid_interest(annual_percentage_rate,
-    prompt("What's the Annual Percentage Rate that you wish?
-            Example: Input 5 for 5% rate"))
-  annual_percentage_rate = annual_percentage_rate.to_f
+  interest_rate = nil
+  prompt()
+  loop do
+    interest_rate = gets.chomp
+    if interest_rate.to_f <= 0 || /^\w+\$/ =~ interest_rate
+      prompt(MESSAGES['valid_number'])
+    elsif interest_rate.size > 4
+      prompt(MESSAGES['valid_interest'])
+    else
+      break
+    end
+  end
 
-  loan_duration = valid_numbers(loan_duration,
-    prompt("How many years is the duration of the loan?
-            Please type in years."))
-  loan_duration = loan_duration.to_i
+  years = nil
+  prompt(MESSAGES['years'])
+  loop do
+    years = gets.chomp
+    if /^\d+$/ =~ years && years.to_i > 0
+      break
+    else
+      prompt(MESSAGES['valid_number'])
+    end
+  end
 
-  monthly_interest = annual_percentage_rate / 100 / 12
-  duration_in_months = loan_duration * 12
+  monthly_interest = interest_rate.to_f / 100 / 12
+  months = years.to_i * 12
 
-  monthly_payment = amount * (monthly_interest / (1 -
-    (1 + monthly_interest)**-duration_in_months))
+  monthly_payment = amount.to_f * (monthly_interest / (1 -
+    (1 + monthly_interest)**-months))
 
-  prompt("#{name} your monthly payment is
-    $#{format('%02.2f', monthly_payment)}")
-
-  prompt("Would you like to calculate again?
-    'Y' to continue or any other key to exit")
+  prompt("#{name} #{MESSAGES['payment']}#{format('%02.2f', monthly_payment)}")
+  prompt(MESSAGES['continue'])
   answer = gets.chomp.downcase.to_s
   break unless answer == 'y'
 end
+
+prompt(MESSAGES['finish'])
