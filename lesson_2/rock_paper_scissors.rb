@@ -76,10 +76,11 @@ def final_result(player, computer)
   end
 end
 
+prompt("Welcome to #{VALID_CHOICES.join(', ')} game.")
+
 loop do
   player_wins = 0
   computer_wins = 0
-  prompt("Welcome to #{VALID_CHOICES.join(', ')} game.")
   loop do
     choice = ''
     single_letter = ''
@@ -101,14 +102,10 @@ loop do
 
     display_results(single_letter, computer_choice)
 
-    if win?(single_letter, computer_choice)
-      player_wins += 1
-    elsif win?(computer_choice, single_letter)
-      computer_wins += 1
-    end
+    player_wins += 1 if win?(single_letter, computer_choice)
+    computer_wins += 1 if win?(computer_choice, single_letter)
 
     prompt("The result is: You #{player_wins} Computer #{computer_wins}")
-    prompt("")
     final_result(player_wins, computer_wins)
     break if player_wins == 5 || computer_wins == 5
   end
