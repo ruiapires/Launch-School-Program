@@ -1,6 +1,6 @@
 require 'yaml'
 
-MESSAGES = YAML.load_file('calculator_messages.yml')
+MESSAGES = YAML.load_file('car_loan_calculator.yml')
 
 def prompt(message)
   puts ">>>>>> #{message}"
