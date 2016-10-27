@@ -1,9 +1,21 @@
-require 'pry'
-
 VALID_CHOICES = %w(rock paper scissors spock lizard)
 
 def prompt(message)
   puts ">>>>>> #{message}"
+end
+
+def transform(input, one_letter)
+  if input == 'r'
+    one_letter << VALID_CHOICES[0]
+  elsif input == 'p'
+    one_letter << VALID_CHOICES[1]
+  elsif input == 's'
+    one_letter << VALID_CHOICES[2]
+  elsif input == 'v'
+    one_letter << VALID_CHOICES[3]
+  elsif input == 'l'
+    one_letter << VALID_CHOICES[4]
+  end
 end
 
 def rock(win, lose)
@@ -40,7 +52,7 @@ end
 def display_results(player, computer)
   if win?(player, computer)
     prompt("You won!")
-  elsif win?(computer, player)
+  elsif   win?(computer, player)
     prompt("Computer won!")
   else
     prompt("It's a tie!")
@@ -49,12 +61,12 @@ end
 
 loop do
   choice = ''
-
+  single_letter = ''
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    choice = gets.chomp
+    choice = gets.chomp.downcase.to_s
 
-    if VALID_CHOICES.include?(choice)
+    if transform(choice, single_letter)
       break
     else
       prompt("That's not a valid choice.")
@@ -63,9 +75,9 @@ loop do
 
   computer_choice = VALID_CHOICES.sample
 
-  prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
+  prompt("You chose: #{single_letter}; Computer chose: #{computer_choice}")
 
-  display_results(choice, computer_choice)
+  display_results(single_letter, computer_choice)
 
   prompt("Do you want to play again? 'Y' to continue or any key to exit")
   answer = gets.chomp

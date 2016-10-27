@@ -34,7 +34,7 @@ loop do
   end
 
   interest_rate = nil
-  prompt()
+  prompt(MESSAGES['rate'])
   loop do
     interest_rate = gets.chomp
     if interest_rate.to_f <= 0 || /^\w+\$/ =~ interest_rate
