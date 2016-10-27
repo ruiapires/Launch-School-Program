@@ -79,14 +79,13 @@ end
 loop do
   player_wins = 0
   computer_wins = 0
+  prompt("Welcome to #{VALID_CHOICES.join(', ')} game.")
   loop do
     choice = ''
     single_letter = ''
     loop do
-      prompt("Welcome to #{VALID_CHOICES.join(', ')} game.
-        Please type:
-        'r': rock, 'p': paper, 's': scissors,'S': spock, 'l': lizard")
-
+      prompt("Please choose:
+      'r': rock, 'p': paper, 's': scissors,'S': spock, 'l': lizard")
       choice = gets.chomp
 
       if transform(choice, single_letter)
@@ -109,7 +108,7 @@ loop do
     end
 
     prompt("The result is: You #{player_wins} Computer #{computer_wins}")
-
+    prompt("")
     final_result(player_wins, computer_wins)
     break if player_wins == 5 || computer_wins == 5
   end
