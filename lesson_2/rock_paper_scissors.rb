@@ -1,5 +1,9 @@
 VALID_CHOICES = %w(rock paper scissors spock lizard)
 
+def clear_screen
+  system('clear') || system('cls')
+end
+
 def prompt(message)
   puts ">>>>>> #{message}"
 end
@@ -76,6 +80,8 @@ def final_result(player, computer)
   end
 end
 
+clear_screen
+
 prompt("Welcome to #{VALID_CHOICES.join(', ')} game.")
 
 loop do
@@ -89,11 +95,8 @@ loop do
       'r': rock, 'p': paper, 's': scissors,'S': spock, 'l': lizard")
       choice = gets.chomp
 
-      if transform(choice, single_letter)
-        break
-      else
-        prompt("That's not a valid choice.")
-      end
+      break if transform(choice, single_letter)
+      prompt("That's not a valid choice.")
     end
 
     computer_choice = VALID_CHOICES.sample
@@ -112,6 +115,7 @@ loop do
   prompt("Do you want to play again? 'Y' to continue or any key to exit")
   answer = gets.chomp
   break unless answer.casecmp('y').zero?
+  clear_screen
 end
 
 prompt("Thank you for playing. Good Bye!")
